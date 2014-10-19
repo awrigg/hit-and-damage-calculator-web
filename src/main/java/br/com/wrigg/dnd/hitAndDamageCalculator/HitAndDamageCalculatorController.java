@@ -4,10 +4,14 @@ package br.com.wrigg.dnd.hitAndDamageCalculator;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import br.com.wrigg.dnd.hitAndDamage.Feat;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
-import br.com.wrigg.dnd.hitAndDamage.damageRollCalculator.DamageRollCalculator;
+import br.com.wrigg.dnd.hitAndDamage.damage.DamageRollCalculator;
 import br.com.wrigg.dnd.hitAndDamageCalculator.character.CharacterFactory;
+import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatEditor;
 
 @Controller
 @RequestMapping("/")
@@ -62,5 +67,10 @@ public class HitAndDamageCalculatorController {
 		
 		model.addAttribute("damageRoll", damageRoll);
 		return "hitAndDamageCalculator";
-	}	
+	}
+	
+	@InitBinder
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+		binder.registerCustomEditor(Feat.class, new FeatEditor());
+    }
 }

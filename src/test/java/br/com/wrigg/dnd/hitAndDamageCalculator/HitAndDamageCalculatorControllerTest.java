@@ -52,6 +52,15 @@ public class HitAndDamageCalculatorControllerTest {
 				.andExpect(
 						forwardedUrl("/WEB-INF/pages/hitAndDamageCalculator.jsp"));
 	}
+	
+	@Test
+	public void shouldShowAttributesForGetRequestTest() throws Exception {
+		mockMvc.perform(get("/hitAndDamageCalculator"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("hitAndDamageCalculator"))
+				.andExpect(
+						forwardedUrl("/WEB-INF/pages/hitAndDamageCalculator.jsp"));
+	}
 
 	@Test
 	public void shouldShowDiceTypeDamageTest() throws Exception {

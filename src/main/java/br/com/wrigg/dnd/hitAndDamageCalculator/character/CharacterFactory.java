@@ -14,6 +14,7 @@ public class CharacterFactory {
 		character.equip(weapon);
 		
 		character.setStrength(characterDTO.getStrength());
+		character.setCharisma(characterDTO.getCharisma());
 		
 		return character;
 	}
