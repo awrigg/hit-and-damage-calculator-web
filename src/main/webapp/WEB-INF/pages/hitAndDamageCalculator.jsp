@@ -14,6 +14,12 @@
 			</c:forEach>
 		</form:select>
 		<br />
+		<h4>Feats</h4>
+		<br />
+		<ul>
+			<form:checkboxes element="li" items="${feats}" path="feats" itemLabel="name" itemValue="name"/>
+		</ul>
+		<br />
 		<h4>Atributes</h4>
 		<br />
 		<label for="str"><b>Str:</b></label>

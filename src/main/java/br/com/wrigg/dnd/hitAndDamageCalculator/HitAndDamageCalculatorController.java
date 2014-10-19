@@ -2,6 +2,9 @@ package br.com.wrigg.dnd.hitAndDamageCalculator;
 
 
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,13 +12,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.wrigg.dnd.hitAndDamage.DiceType;
+import br.com.wrigg.dnd.hitAndDamage.Feat;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
 import br.com.wrigg.dnd.hitAndDamage.damageRollCalculator.DamageRollCalculator;
 import br.com.wrigg.dnd.hitAndDamageCalculator.character.CharacterFactory;
-
-import org.apache.log4j.Logger;
 
 @Controller
 @RequestMapping("/")
@@ -29,8 +30,15 @@ public class HitAndDamageCalculatorController {
 	@ModelAttribute("weapons")
 	public Weapon[] weapons() {
 		//FIXME Apenas para efeito dos testes iniciais
-		Weapon weapon = new Weapon(new DiceType(4));
+		Weapon weapon = new Weapon();
 		return weapon.values();
+	}
+
+	@ModelAttribute("feats")
+	public List<Feat> feats() {
+		//FIXME Apenas para efeito dos testes iniciais
+		Feat feat = new Feat();
+		return feat.values();
 	}
 
 	@RequestMapping(value="hitAndDamageCalculator", method=RequestMethod.GET)
