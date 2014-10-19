@@ -56,7 +56,7 @@ public class WeaponSelectionTest {
 	}
 	
 	@Test
-	public void calculateWeaponDamageTest() throws Exception {
+	public void calculateKukriWeaponDamageTest() throws Exception {
 		this.driver.get("http://localhost:8080/hit-and-damage-calculator/hitAndDamageCalculator");
 		
 		Select weaponSelect = new Select(driver.findElement(By.id("weaponSelect")));
@@ -70,6 +70,44 @@ public class WeaponSelectionTest {
 		
 		WebElement damageRoll = driver.findElement(By.id("damageRoll"));
 		assertEquals("1D4", damageRoll.getText());
+	}
+	
+	@Test
+	public void calculateLongSwordWeaponDamageTest() throws Exception {
+		this.driver.get("http://localhost:8080/hit-and-damage-calculator/hitAndDamageCalculator");
+		
+		Select weaponSelect = new Select(driver.findElement(By.id("weaponSelect")));
+		weaponSelect.selectByValue("Long Sword");
+
+		WebElement longSword = weaponSelect.getFirstSelectedOption();
+		assertEquals("Long Sword", longSword.getText());
+		
+		WebElement calculateButton = driver.findElement(By.id("calculateButton"));
+		calculateButton.click();
+		
+		WebElement damageRoll = driver.findElement(By.id("damageRoll"));
+		assertEquals("1D8", damageRoll.getText());
+	}
+	
+	@Test
+	public void calculateKukriWeaponDamageWithStrengthTest() throws Exception {
+		this.driver.get("http://localhost:8080/hit-and-damage-calculator/hitAndDamageCalculator");
+		
+		Select weaponSelect = new Select(driver.findElement(By.id("weaponSelect")));
+		weaponSelect.selectByIndex(0);
+
+		WebElement kukri = weaponSelect.getFirstSelectedOption();
+		assertEquals("Kukri", kukri.getText());
+		
+		WebElement str = driver.findElement(By.id("str"));
+		str.clear();
+		str.sendKeys("18");
+		
+		WebElement calculateButton = driver.findElement(By.id("calculateButton"));
+		calculateButton.click();
+		
+		WebElement damageRoll = driver.findElement(By.id("damageRoll"));
+		assertEquals("1D4+4", damageRoll.getText());
 	}	
 
 	@After

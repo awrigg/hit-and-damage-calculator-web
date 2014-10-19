@@ -23,5 +23,7 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
+	
+	<bean id="characterFactory" class="br.com.wrigg.dnd.hitAndDamageCalculator.character.CharacterFactory"/>
  
 </beans>

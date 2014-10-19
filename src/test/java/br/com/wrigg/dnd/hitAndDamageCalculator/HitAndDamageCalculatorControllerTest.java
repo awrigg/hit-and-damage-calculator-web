@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import br.com.wrigg.dnd.hitAndDamage.Character;
-import br.com.wrigg.dnd.hitAndDamage.Weapon;
+import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
+import br.com.wrigg.dnd.hitAndDamage.character.Character;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:baseControllerContextTest.xml",
@@ -44,7 +45,7 @@ public class HitAndDamageCalculatorControllerTest {
 	}
 
 	@Test
-	public void welcome_ShouldShowWelcomeMessageTest() throws Exception {
+	public void shouldReturnOKForGetRequestTest() throws Exception {
 		mockMvc.perform(get("/hitAndDamageCalculator"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("hitAndDamageCalculator"))
@@ -53,7 +54,7 @@ public class HitAndDamageCalculatorControllerTest {
 	}
 
 	@Test
-	public void welcome_ShouldShowDiceTypeDamageTest() throws Exception {
+	public void shouldShowDiceTypeDamageTest() throws Exception {
 		Weapon weapon = new Weapon();
 		weapon.setName("Kukri");
 		Character character = new Character();
@@ -66,51 +67,16 @@ public class HitAndDamageCalculatorControllerTest {
 			.andExpect(view().name("hitAndDamageCalculator"))
 			.andExpect(forwardedUrl("/WEB-INF/pages/hitAndDamageCalculator.jsp"));
 
-		mockMvc.perform(post("/hitAndDamageCalculator")
+		mockMvc.perform(post("/hitAndDamageCalculator.do")
 	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-	                .param("weaponSelect", "Kukri")
-	                .sessionAttr("character", character))
+	                .param("weaponSelect", "Kukri"))
+	                //.sessionAttr("character", character))
+	                .andDo(print())
 //	      .andExpect(status().)
 	      .andExpect(view().name("redirect:hitAndDamageCalculator"))
 	      .andExpect(redirectedUrl("/hitAndDamageCalculator"))
 	      .andExpect(model().attribute("character", is(character)));
 		
 	}
-	// @Test
-	// public void
-	// calculateDamageRollShouldadd_NewTodoEntry_ShouldAddTodoEntryAndRenderViewTodoEntryView()
-	// throws Exception {
-	// Todo added = new TodoBuilder()
-	// .id(1L)
-	// .description("description")
-	// .title("title")
-	// .build();
-	//
-	// when(todoServiceMock.add(isA(TodoDTO.class))).thenReturn(added);
-	//
-	// mockMvc.perform(post("/todo/add")
-	// .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-	// .param("description", "description")
-	// .param("title", "title")
-	// .sessionAttr("todo", new TodoDTO())
-	// )
-	// .andExpect(status().isMovedTemporarily())
-	// .andExpect(view().name("redirect:todo/{id}"))
-	// .andExpect(redirectedUrl("/todo/1"))
-	// .andExpect(model().attribute("id", is("1")))
-	// .andExpect(flash().attribute("feedbackMessage",
-	// is("Todo entry: title was added.")));
-	//
-	// ArgumentCaptor<TodoDTO> formObjectArgument =
-	// ArgumentCaptor.forClass(TodoDTO.class);
-	// verify(todoServiceMock, times(1)).add(formObjectArgument.capture());
-	// verifyNoMoreInteractions(todoServiceMock);
-	//
-	// TodoDTO formObject = formObjectArgument.getValue();
-	//
-	// assertThat(formObject.getDescription(), is("description"));
-	// assertNull(formObject.getId());
-	// assertThat(formObject.getTitle(), is("title"));
-	// }
 
 }

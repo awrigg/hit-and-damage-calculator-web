@@ -2,16 +2,18 @@ package br.com.wrigg.dnd.hitAndDamageCalculator;
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.wrigg.dnd.hitAndDamage.Character;
 import br.com.wrigg.dnd.hitAndDamage.DiceType;
-import br.com.wrigg.dnd.hitAndDamage.Weapon;
+import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
+import br.com.wrigg.dnd.hitAndDamage.character.Character;
 import br.com.wrigg.dnd.hitAndDamage.damageRollCalculator.DamageRollCalculator;
+import br.com.wrigg.dnd.hitAndDamageCalculator.character.CharacterFactory;
 
 import org.apache.log4j.Logger;
 
@@ -20,6 +22,9 @@ import org.apache.log4j.Logger;
 public class HitAndDamageCalculatorController {
  
 	private static final  Logger logger = Logger.getLogger(HitAndDamageCalculatorController.class);
+	
+	@Autowired
+	CharacterFactory characterFactory;
 	
 	@ModelAttribute("weapons")
 	public Weapon[] weapons() {
@@ -36,16 +41,18 @@ public class HitAndDamageCalculatorController {
 	}
 
 	@RequestMapping(value="hitAndDamageCalculator", method=RequestMethod.POST)
-	public String submitForm(@ModelAttribute("character") Character character, Model model) {
+	public String submitForm(@ModelAttribute("character") Character characterDTO, Model model) {
 		logger.trace("submitForm");
 		
-		logger.debug("[character] = " + character);
-		logger.debug("[weapon] = " + character.getWeapon());
-		
+		logger.debug("[characterDTO] = " + characterDTO);
+		logger.debug("[weaponDTO] = " + characterDTO.getWeapon());
+
+		Character character = characterFactory.create(characterDTO);
+
 		DamageRollCalculator damageRollCalculator = new DamageRollCalculator();
-		damageRollCalculator.calculateDamageRoll(character);
+		String damageRoll = damageRollCalculator.calculateDamageRoll(character);
 		
-		model.addAttribute("damageRoll", damageRollCalculator.calculateDamageRoll(character));
+		model.addAttribute("damageRoll", damageRoll);
 		return "hitAndDamageCalculator";
 	}	
 }

@@ -4,7 +4,7 @@
 <html>
 <body>
 	<h2>Damage and Hit Calculator</h2>
-	<h4 id="damageRoll">${message}</h4>
+	<h4 id="damageRoll">Damage Roll: ${damageRoll}</h4>
 	<form:form modelAttribute="character">
 		<br />
 		<label for="weaponSelect">Weapon:</label>
@@ -14,6 +14,10 @@
 			</c:forEach>
 		</form:select>
 		<br />
+		<h4>Atributes</h4>
+		<br />
+		<label for="str"><b>Str:</b></label>
+		<form:input path="strength.value" type="text" id="str" />
 		<br />
 		<input type="submit" value="Calculate Damage Roll" id="calculateButton" />
 	</form:form>
