@@ -1,5 +1,6 @@
 package br.com.wrigg.dnd.hitAndDamageCalculator.character;
 
+import br.com.wrigg.dnd.hitAndDamage.Feat;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.ArsenalSupervisor;
@@ -15,6 +16,12 @@ public class CharacterFactory {
 		
 		character.setStrength(characterDTO.getStrength());
 		
+		for (Feat feat : characterDTO.getFeats()) {
+			character.addFeat(feat);
+		}
+
+		character.setCharisma(characterDTO.getCharisma());
+
 		return character;
 	}
 }

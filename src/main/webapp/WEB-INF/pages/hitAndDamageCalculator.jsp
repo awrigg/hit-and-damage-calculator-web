@@ -17,13 +17,16 @@
 		<h4>Feats</h4>
 		<br />
 		<ul>
-			<form:checkboxes element="li" items="${feats}" path="feats" itemLabel="name" itemValue="name"/>
+			<form:checkboxes element="li" items="${feats}" path="feats" itemLabel="name" itemValue="id"/>
 		</ul>
 		<br />
 		<h4>Atributes</h4>
 		<br />
 		<label for="str"><b>Str:</b></label>
 		<form:input path="strength.value" type="text" id="str" />
+		<br />
+		<label for="cha"><b>Cha:</b></label>
+		<form:input path="charisma.value" type="text" id="cha" />
 		<br />
 		<input type="submit" value="Calculate Damage Roll" id="calculateButton" />
 	</form:form>
