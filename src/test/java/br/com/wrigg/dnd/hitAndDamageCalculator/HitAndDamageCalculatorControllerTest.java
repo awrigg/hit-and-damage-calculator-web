@@ -76,15 +76,15 @@ public class HitAndDamageCalculatorControllerTest {
 			.andExpect(view().name("hitAndDamageCalculator"))
 			.andExpect(forwardedUrl("/WEB-INF/pages/hitAndDamageCalculator.jsp"));
 
-		mockMvc.perform(post("/hitAndDamageCalculator.do")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-	                .param("weaponSelect", "Kukri"))
-	                //.sessionAttr("character", character))
-	                .andDo(print())
-//	      .andExpect(status().)
-	      .andExpect(view().name("redirect:hitAndDamageCalculator"))
-	      .andExpect(redirectedUrl("/hitAndDamageCalculator"))
-	      .andExpect(model().attribute("character", is(character)));
+//		mockMvc.perform(post("/hitAndDamageCalculator.do")
+//	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//	                .param("weaponSelect", "Kukri"))
+//	                //.sessionAttr("character", character))
+//	                .andDo(print())
+////	      .andExpect(status().)
+//	      .andExpect(view().name("redirect:hitAndDamageCalculator"))
+//	      .andExpect(redirectedUrl("/hitAndDamageCalculator"))
+//	      .andExpect(model().attribute("character", is(character)));
 		
 	}
 

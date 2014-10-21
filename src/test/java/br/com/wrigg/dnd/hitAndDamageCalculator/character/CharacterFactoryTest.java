@@ -88,4 +88,21 @@ public class CharacterFactoryTest {
 		assertEquals(character, characterCreated);
 	}
 
+	@Test
+	public void characterWithFeatWithTypeCreationTest() {
+		Character character = new Character();
+		
+		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Feat.Type.FEATURE_DEPENDENT);
+		character.addFeat(feat);
+
+		Character characterDTO = new Character();
+		
+		Feat featDTO = new Feat("divineMetamagic", "Divine Metamagic");
+		characterDTO.getFeats().add(featDTO);
+		
+		CharacterFactory characterFactory = new CharacterFactory();
+		Character characterCreated = characterFactory.create(characterDTO);
+
+		assertEquals(character, characterCreated);
+	}
 }

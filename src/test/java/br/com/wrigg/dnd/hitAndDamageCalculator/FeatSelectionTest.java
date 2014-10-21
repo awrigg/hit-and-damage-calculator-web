@@ -28,7 +28,7 @@ public class FeatSelectionTest {
 		capabilities.setCapability("name", "Testing Weapon Selection");
 
 		this.driver = new FirefoxDriver(capabilities);
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	}
 		
 	@Test
@@ -62,6 +62,39 @@ public class FeatSelectionTest {
 		
 		WebElement damageRoll = driver.findElement(By.id("damageRoll"));
 		assertEquals("1D4+9", damageRoll.getText());
+	}
+	
+	@Test
+	public void powerAttackShouldAddAInputedBonusToDamageTest() throws Exception {
+		this.driver.get("http://localhost:8080/hit-and-damage-calculator/hitAndDamageCalculator");
+		
+		Select weaponSelect = new Select(driver.findElement(By.id("weaponSelect")));
+		List<WebElement> weapons = weaponSelect.getOptions();
+		WebElement kukri = weapons.get(0);
+		assertEquals("Kukri", kukri.getText());
+		
+		weaponSelect.selectByIndex(0);
+		
+		WebElement str = driver.findElement(By.id("str"));
+		str.clear();
+		str.sendKeys("18");
+
+		WebElement powerAttack = driver.findElement(By.xpath("//input[@type=\"checkbox\" and @value=\"powerAttack\"]"));
+		String powerAttackId = powerAttack.getAttribute("id");
+		WebElement powerAttackLabel = driver.findElement(By.xpath("//label[@for=\"" + powerAttackId + "\"]"));
+		assertEquals("Power Attack", powerAttackLabel.getText());
+
+		powerAttack.click();
+
+		WebElement powerAttackInput = driver.findElement(By.id("powerAttack_value"));
+		powerAttackInput.clear();
+		powerAttackInput.sendKeys("4");
+
+		WebElement calculateButton = driver.findElement(By.id("calculateButton"));
+		calculateButton.click();
+		
+		WebElement damageRoll = driver.findElement(By.id("damageRoll"));
+		assertEquals("1D4+8", damageRoll.getText());
 	}
 	
 	@After

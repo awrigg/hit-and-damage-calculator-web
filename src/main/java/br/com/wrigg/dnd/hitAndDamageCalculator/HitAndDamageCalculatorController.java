@@ -50,6 +50,7 @@ public class HitAndDamageCalculatorController {
 	public String loadFormPage(Model model) {
 		logger.trace("loadFormPage");
 		model.addAttribute("character", new Character());
+
 		return "hitAndDamageCalculator";
 	}
 
@@ -62,10 +63,15 @@ public class HitAndDamageCalculatorController {
 
 		Character character = characterFactory.create(characterDTO);
 
-		DamageRollCalculator damageRollCalculator = new DamageRollCalculator();
+		logger.debug("[character] = " + character);
+		
+		DamageRollCalculator damageRollCalculator = new DamageRollCalculator();		
 		String damageRoll = damageRollCalculator.calculateDamageRoll(character);
+
+		logger.debug("damageRoll calculado [" + damageRoll + "]");
 		
 		model.addAttribute("damageRoll", damageRoll);
+
 		return "hitAndDamageCalculator";
 	}
 	

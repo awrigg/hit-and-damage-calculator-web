@@ -4,7 +4,7 @@
 <html>
 <body>
 	<h2>Damage and Hit Calculator</h2>
-	<h4 id="damageRoll">Damage Roll: ${damageRoll}</h4>
+	<h4>Damage Roll:</h4><h4 id="damageRoll">${damageRoll}</h4>
 	<form:form modelAttribute="character">
 		<br />
 		<label for="weaponSelect">Weapon:</label>
@@ -17,7 +17,14 @@
 		<h4>Feats</h4>
 		<br />
 		<ul>
-			<form:checkboxes element="li" items="${feats}" path="feats" itemLabel="name" itemValue="id"/>
+			<c:forEach items="${feats}" var="feat" varStatus="status">
+				<li>
+					<form:checkbox path="feats" id="${feat.id}" value="${feat.id}" /><label for="${feat.id}">${feat.name}</label>
+					<c:if test="${feat.type == 'VariableInput'}">
+						<form:input path="feats[${status.index-1}].damageBonus.bonus.bonus" id="${feat.id}_value" /> 
+					</c:if>
+				</li>
+			</c:forEach>
 		</ul>
 		<br />
 		<h4>Atributes</h4>
