@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import br.com.wrigg.dnd.hitAndDamage.Feat;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
-import br.com.wrigg.dnd.hitAndDamage.arsenal.WeaponNotFoundException;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
+import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.ArsenalSupervisor;
+import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.WeaponNotFoundException;
 
 public class CharacterFactory {
 
@@ -23,7 +23,6 @@ public class CharacterFactory {
 		try {
 			weapon = arsenalSupervisor.findWeapon(characterDTO.getWeapon());
 		} catch (WeaponNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		character.equip(weapon);

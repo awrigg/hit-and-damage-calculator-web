@@ -8,7 +8,6 @@ import org.junit.runners.JUnit4;
 
 import br.com.wrigg.dnd.hitAndDamage.DiceType;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
-import br.com.wrigg.dnd.hitAndDamage.arsenal.WeaponNotFoundException;
 
 @RunWith(JUnit4.class)
 public class ArsenalSupervisorTest {
@@ -34,5 +33,15 @@ public class ArsenalSupervisorTest {
 	public void findWeaponByWeaponDTOPassingNullShowldReturnExceptionTest() throws WeaponNotFoundException {
 		ArsenalSupervisor arsenalSupervisor = new ArsenalSupervisor();
 		arsenalSupervisor.findWeapon(null);
+	}
+	
+	@Test(expected=WeaponNotFoundException.class)
+	public void findInexistentWeaponByWeaponDTOShowldReturnExceptionTest() throws WeaponNotFoundException {
+		ArsenalSupervisor arsenalSupervisor = new ArsenalSupervisor();
+		
+		Weapon weaponDTO = new Weapon();
+		weaponDTO.setName("Inexistent Weapon");
+		
+		arsenalSupervisor.findWeapon(weaponDTO);
 	}
 }

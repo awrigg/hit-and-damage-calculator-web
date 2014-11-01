@@ -14,6 +14,13 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>br.com.wrigg.dnd</groupId>
+			<artifactId>hit-and-damage</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<!-- <scope>compile</scope> -->
+		</dependency>
+
+		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-server</artifactId>
 			<version>2.43.1</version>
@@ -93,13 +100,6 @@
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>br.com.wrigg.dnd</groupId>
-			<artifactId>hit-and-damage</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>

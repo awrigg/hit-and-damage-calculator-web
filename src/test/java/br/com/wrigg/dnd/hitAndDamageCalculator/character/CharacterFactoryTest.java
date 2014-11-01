@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.wrigg.dnd.hitAndDamage.DiceType;
-import br.com.wrigg.dnd.hitAndDamage.Feat;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Attribute;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
+import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CharacterFactoryTest {
