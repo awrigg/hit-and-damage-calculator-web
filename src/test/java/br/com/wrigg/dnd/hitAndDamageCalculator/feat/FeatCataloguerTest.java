@@ -15,7 +15,8 @@ public class FeatCataloguerTest {
 	public void findWeaponByWeaponDTOTest() {
 		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Feat.Type.FEATURE_DEPENDENT); 
 
-		Feat featDTO = new Feat("Divine Metamagic");
+		Feat featDTO = new Feat();
+		featDTO.setId("divineMetamagic");
 
 		FeatCataloguer featCataloguer = new FeatCataloguer();
 		Feat featFound = null;
@@ -37,7 +38,8 @@ public class FeatCataloguerTest {
 	public void findInexistentFeatByFeatDTOShowldReturnExceptionTest() throws FeatNotFoundException {
 		FeatCataloguer featCataloguer = new FeatCataloguer();
 
-		Feat featDTO = new Feat("Inexistent Feat");
+		Feat featDTO = new Feat();
+		featDTO.setId("Inexistent Feat");
 		
 		featCataloguer.findFeat(featDTO);
 	}

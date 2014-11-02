@@ -31,6 +31,13 @@ public class HitAndDamageCalculatorController {
 	
 	@Autowired
 	CharacterFactory characterFactory;
+
+	//FIXME mesmo com o binder nao estava criando a Feat com ID preenchido
+//	@InitBinder
+//    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+//		logger.debug("INIT BINDER CALLED");
+//		binder.registerCustomEditor(Feat.class, new FeatEditor());
+//    }
 	
 	@ModelAttribute("weapons")
 	public Weapon[] weapons() {
@@ -74,9 +81,4 @@ public class HitAndDamageCalculatorController {
 
 		return "hitAndDamageCalculator";
 	}
-	
-	@InitBinder
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-		binder.registerCustomEditor(Feat.class, new FeatEditor());
-    }
 }

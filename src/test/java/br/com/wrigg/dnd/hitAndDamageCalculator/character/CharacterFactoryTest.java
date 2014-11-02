@@ -10,6 +10,7 @@ import br.com.wrigg.dnd.hitAndDamage.DiceType;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Attribute;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
+import br.com.wrigg.dnd.hitAndDamage.damage.DamageBonus;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -62,7 +63,7 @@ public class CharacterFactoryTest {
 		Attribute str = new Attribute(18);
 		character.setStrength(str);
 		
-		Feat feat = new Feat("divineMetamagic", "Divine Metamagic");
+		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Feat.Type.FEATURE_DEPENDENT);
 		character.addFeat(feat);
 
 		Attribute cha = new Attribute(21);
@@ -79,7 +80,9 @@ public class CharacterFactoryTest {
 		Attribute chaDTO = new Attribute(21);
 		characterDTO.setCharisma(chaDTO);
 		
-		Feat featDTO = new Feat("divineMetamagic", "Divine Metamagic");
+		//FIXME busca esta sendo feita pelo nome por falha no Spring em popular o id
+		//Feat featDTO = new Feat("divineMetamagic", "Divine Metamagic");
+		Feat featDTO = new Feat("divineMetamagic");
 		characterDTO.getFeats().add(featDTO);
 		
 		CharacterFactory characterFactory = new CharacterFactory();
@@ -97,8 +100,52 @@ public class CharacterFactoryTest {
 
 		Character characterDTO = new Character();
 		
-		Feat featDTO = new Feat("divineMetamagic", "Divine Metamagic");
+		//FIXME a busca esta sendo feita pelo nome por falha no Spring na hora de popular o objeto, corrigir
+		//Feat featDTO = new Feat("divineMetamagic", "Divine Metamagic");
+		Feat featDTO = new Feat("divineMetamagic");
 		characterDTO.getFeats().add(featDTO);
+		
+		CharacterFactory characterFactory = new CharacterFactory();
+		Character characterCreated = characterFactory.create(characterDTO);
+
+		assertEquals(character, characterCreated);
+	}
+	
+	@Test
+	public void characterWithPowerAttackWithBonusCreationTest() {
+		Character character = new Character();
+		
+		Feat powerAttack = new Feat("powerAttack", "Power Attack", Feat.Type.VARIABLE_IMPUT);
+		powerAttack.setDamageBonus(new DamageBonus(5));
+		character.addFeat(powerAttack);
+
+		Character characterDTO = new Character();
+		
+		//FIXME busca esta sendo feita por nome por falha no Spring em popular o ID
+		//Feat powerAttackDTO = new Feat("powerAttack", "Power Attack");
+		Feat powerAttackDTO = new Feat("powerAttack");
+		powerAttackDTO.setDamageBonus(new DamageBonus(5));
+		characterDTO.getFeats().add(powerAttackDTO);
+		
+		CharacterFactory characterFactory = new CharacterFactory();
+		Character characterCreated = characterFactory.create(characterDTO);
+
+		assertEquals(character, characterCreated);
+	}
+	
+	@Test
+	public void characterWithMagicalWeaponCreationTest() {
+		Character character = new Character();
+
+		Weapon weapon = new Weapon("Kukri", new DiceType(4));
+		weapon.setBonus(new DamageBonus(1));
+		character.equip(weapon);
+
+		Character characterDTO = new Character();
+		Weapon weaponDTO = new Weapon();
+		weaponDTO.setName("Kukri");
+		weaponDTO.setBonus(new DamageBonus(1));
+		characterDTO.equip(weaponDTO);
 		
 		CharacterFactory characterFactory = new CharacterFactory();
 		Character characterCreated = characterFactory.create(characterDTO);

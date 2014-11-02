@@ -6,9 +6,12 @@ import org.apache.log4j.Logger;
 
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
+import br.com.wrigg.dnd.hitAndDamage.damage.DamageBonus;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.ArsenalSupervisor;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.WeaponNotFoundException;
+import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatCataloguer;
+import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatNotFoundException;
 
 public class CharacterFactory {
 
@@ -21,9 +24,11 @@ public class CharacterFactory {
 		//TODO melhorar o codigo
 		Weapon weapon = null;
 		try {
-			weapon = arsenalSupervisor.findWeapon(characterDTO.getWeapon());
+			Weapon weaponDTO = characterDTO.getWeapon();
+			weapon = arsenalSupervisor.findWeapon(weaponDTO);
+			weapon.setBonus(weaponDTO.getBonus());
 		} catch (WeaponNotFoundException e) {
-			e.printStackTrace();
+			logger.warn("Arma [" + weapon + "] nao encontrada no arsenal");
 		}
 		character.equip(weapon);
 		
@@ -32,8 +37,21 @@ public class CharacterFactory {
 		List<Feat> feats = characterDTO.getFeats();
 		
 		if(feats != null)
-			for (Feat feat : characterDTO.getFeats()) {
-				logger.debug("Feat [" + feat.getName() + "]");
+			for (Feat featDTO : characterDTO.getFeats()) {
+				logger.debug("Feat Id [" + featDTO.getId() + "] name [" + featDTO.getName() + "]");
+				FeatCataloguer featCataloguer = new FeatCataloguer();
+				Feat feat = null;
+				try {
+					feat = featCataloguer.findFeat(featDTO);
+					DamageBonus damageBonus = featDTO.getDamageBonus();
+					logger.debug("DamageBonus [" + damageBonus + "]");
+					if(damageBonus != null)
+						logger.debug("bonus [" + damageBonus.printDamageBonus() + "]");
+					feat.setDamageBonus(damageBonus);
+				} catch (FeatNotFoundException e) {
+					logger.warn("Feat [" + feat + "] nao encontrada no catalogo");
+				}
+				
 				character.addFeat(feat);
 			}
 

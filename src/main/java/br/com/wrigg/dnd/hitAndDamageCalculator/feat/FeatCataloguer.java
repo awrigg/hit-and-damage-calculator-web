@@ -7,7 +7,8 @@ public class FeatCataloguer {
 	public Feat findFeat(Feat featDTO) throws FeatNotFoundException {
 		FeatCatalog featCatalog = new FeatCatalog();
 		if(featDTO != null) {
-			Feat featFound = featCatalog.findFeatByName(featDTO.getName());
+			//FIXME a busca deveria ser por ID, mas nao consigo trazer ID preenchido da tela
+			Feat featFound = featCatalog.findFeatById(featDTO.getName());
 			if(featFound != null)
 				return featFound;
 		}
