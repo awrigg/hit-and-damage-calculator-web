@@ -7,11 +7,13 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.wrigg.dnd.hitAndDamage.DiceType;
+import br.com.wrigg.dnd.hitAndDamage.Type;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Attribute;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
 import br.com.wrigg.dnd.hitAndDamage.damage.DamageBonus;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
+import br.com.wrigg.dnd.hitAndDamage.spell.Spell;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CharacterFactoryTest {
@@ -63,7 +65,7 @@ public class CharacterFactoryTest {
 		Attribute str = new Attribute(18);
 		character.setStrength(str);
 		
-		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Feat.Type.FEATURE_DEPENDENT);
+		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Type.FEATURE_DEPENDENT);
 		character.addFeat(feat);
 
 		Attribute cha = new Attribute(21);
@@ -95,7 +97,7 @@ public class CharacterFactoryTest {
 	public void characterWithFeatWithTypeCreationTest() {
 		Character character = new Character();
 		
-		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Feat.Type.FEATURE_DEPENDENT);
+		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Type.FEATURE_DEPENDENT);
 		character.addFeat(feat);
 
 		Character characterDTO = new Character();
@@ -115,7 +117,7 @@ public class CharacterFactoryTest {
 	public void characterWithPowerAttackWithBonusCreationTest() {
 		Character character = new Character();
 		
-		Feat powerAttack = new Feat("powerAttack", "Power Attack", Feat.Type.VARIABLE_IMPUT);
+		Feat powerAttack = new Feat("powerAttack", "Power Attack", Type.VARIABLE_IMPUT);
 		powerAttack.setDamageBonus(new DamageBonus(5));
 		character.addFeat(powerAttack);
 
@@ -146,6 +148,31 @@ public class CharacterFactoryTest {
 		weaponDTO.setName("Kukri");
 		weaponDTO.setBonus(new DamageBonus(1));
 		characterDTO.equip(weaponDTO);
+		
+		CharacterFactory characterFactory = new CharacterFactory();
+		Character characterCreated = characterFactory.create(characterDTO);
+
+		assertEquals(character, characterCreated);
+	}
+	
+	@Test
+	public void characterWithWeaponAndSpellCreationTest() {
+		Character character = new Character();
+
+		Weapon weapon = new Weapon("Kukri", new DiceType(4));
+		character.equip(weapon);
+		
+		Spell divineFavor = new Spell("divineFavor", "Divine Favor");
+		character.getSpells().add(divineFavor);
+
+		Character characterDTO = new Character();
+		Weapon weaponDTO = new Weapon();
+		weaponDTO.setName("Kukri");
+		characterDTO.equip(weaponDTO);
+		
+		Spell spellDTO = new Spell();
+		spellDTO.setId("divineFavor");
+		characterDTO.getSpells().add(spellDTO);
 		
 		CharacterFactory characterFactory = new CharacterFactory();
 		Character characterCreated = characterFactory.create(characterDTO);

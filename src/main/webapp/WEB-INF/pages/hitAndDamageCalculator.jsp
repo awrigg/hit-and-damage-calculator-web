@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <%
-	pageContext.setAttribute("VARIABLE_IMPUT", br.com.wrigg.dnd.hitAndDamage.feat.Feat.Type.VARIABLE_IMPUT.name());
+	pageContext.setAttribute("VARIABLE_IMPUT", br.com.wrigg.dnd.hitAndDamage.Type.VARIABLE_IMPUT.name());
 %>
 
 <html>
@@ -35,6 +35,17 @@
 			</c:forEach>
 		</ul>
 		<br />
+		<h4>Spells</h4>
+		<br />
+		<ul>
+			<c:forEach items="${spells}" var="spell" varStatus="spellRow">
+				<li>
+					<form:checkbox path="spells" id="${spell.id}" value="${spell.id}" />
+					<label for="${spell.id}">${spell.name}</label>
+				</li>
+			</c:forEach>
+		</ul>
+		<br />
 		<h4>Atributes</h4>
 		<br />
 		<label for="str"><b>Str:</b></label>
@@ -43,6 +54,12 @@
 		<label for="cha"><b>Cha:</b></label>
 		<form:input path="charisma.value" type="text" id="cha" />
 		<br />
+		<h4>Features</h4>
+		<br />
+		<label for="casterLevel"><b>Caster Level:</b></label>
+		<form:input path="casterLevel.level" type="text" id="casterLevel" />
+		<br />
+		
 		<input type="submit" value="Calculate Damage Roll"
 			id="calculateButton" />
 	</form:form>

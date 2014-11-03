@@ -8,10 +8,13 @@ import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
 import br.com.wrigg.dnd.hitAndDamage.damage.DamageBonus;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
+import br.com.wrigg.dnd.hitAndDamage.spell.Spell;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.ArsenalSupervisor;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.WeaponNotFoundException;
 import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatCataloguer;
 import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatNotFoundException;
+import br.com.wrigg.dnd.hitAndDamageCalculator.spell.SpellNotFoundException;
+import br.com.wrigg.dnd.hitAndDamageCalculator.spell.SpellSearcher;
 
 public class CharacterFactory {
 
@@ -53,6 +56,27 @@ public class CharacterFactory {
 				}
 				
 				character.addFeat(feat);
+			}
+
+		List<Spell> spells = characterDTO.getSpells();
+
+		if(spells != null)
+			for (Spell spellDTO : characterDTO.getSpells()) {
+				logger.debug("Spell Id [" + spellDTO.getId() + "] name [" + spellDTO.getName() + "]");
+				SpellSearcher spellSearcher = new SpellSearcher();
+				Spell spell = null;
+				try {
+					spell = spellSearcher.findSpell(spellDTO);
+//					DamageBonus damageBonus = spellDTO.getDamageBonus();
+//					logger.debug("DamageBonus [" + damageBonus + "]");
+//					if(damageBonus != null)
+//						logger.debug("bonus [" + damageBonus.printDamageBonus() + "]");
+//					spell.setDamageBonus(damageBonus);
+				} catch (SpellNotFoundException e) {
+					logger.warn("Spell [" + spell + "] nao encontrada no catalogo");
+				}
+				
+				character.getSpells().add(spell);
 			}
 
 		character.setCharisma(characterDTO.getCharisma());

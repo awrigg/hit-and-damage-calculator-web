@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import br.com.wrigg.dnd.hitAndDamage.Type;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
 
 @RunWith(JUnit4.class)
@@ -13,10 +14,11 @@ public class FeatCataloguerTest {
 
 	@Test
 	public void findWeaponByWeaponDTOTest() {
-		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Feat.Type.FEATURE_DEPENDENT); 
+		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Type.FEATURE_DEPENDENT); 
 
 		Feat featDTO = new Feat();
-		featDTO.setId("divineMetamagic");
+		//FIXME a busca esta sendo feita por nome pois nao consegui acertar no Spring para criar preenchendo  ID
+		featDTO.setName("divineMetamagic");
 
 		FeatCataloguer featCataloguer = new FeatCataloguer();
 		Feat featFound = null;

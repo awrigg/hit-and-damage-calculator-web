@@ -20,8 +20,9 @@ import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
 import br.com.wrigg.dnd.hitAndDamage.damage.DamageRollCalculator;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
+import br.com.wrigg.dnd.hitAndDamage.spell.Spell;
 import br.com.wrigg.dnd.hitAndDamageCalculator.character.CharacterFactory;
-import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatEditor;
+import br.com.wrigg.dnd.hitAndDamageCalculator.spell.SpellEditor;
 
 @Controller
 @RequestMapping("/")
@@ -33,11 +34,12 @@ public class HitAndDamageCalculatorController {
 	CharacterFactory characterFactory;
 
 	//FIXME mesmo com o binder nao estava criando a Feat com ID preenchido
-//	@InitBinder
-//    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-//		logger.debug("INIT BINDER CALLED");
-//		binder.registerCustomEditor(Feat.class, new FeatEditor());
-//    }
+	@InitBinder
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+		logger.debug("INIT BINDER CALLED");
+		//binder.registerCustomEditor(Feat.class, new FeatEditor());
+		binder.registerCustomEditor(Spell.class, new SpellEditor());
+    }
 	
 	@ModelAttribute("weapons")
 	public Weapon[] weapons() {
@@ -51,6 +53,13 @@ public class HitAndDamageCalculatorController {
 		//FIXME Apenas para efeito dos testes iniciais
 		Feat feat = new Feat();
 		return feat.values();
+	}
+	
+	@ModelAttribute("spells")
+	public List<Spell> spells() {
+		//FIXME Apenas para efeito dos testes iniciais
+		Spell spell = new Spell();
+		return spell.values();
 	}
 
 	@RequestMapping(value="hitAndDamageCalculator", method=RequestMethod.GET)
