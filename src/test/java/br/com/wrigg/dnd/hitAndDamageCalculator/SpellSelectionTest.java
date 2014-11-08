@@ -51,6 +51,10 @@ public class SpellSelectionTest {
 		WebElement divineFavorSpellLabel = driver.findElement(By.xpath("//label[@for=\"" + divineFavorSpellId + "\"]"));
 		assertEquals("Divine Favor", divineFavorSpellLabel.getText());
 		
+		WebElement casterLevel = driver.findElement(By.id("casterLevel"));
+		casterLevel.clear();
+		casterLevel.sendKeys("2");
+		
 		divineFavorSpell.click();
 		
 		WebElement calculateButton = driver.findElement(By.id("calculateButton"));
@@ -75,10 +79,6 @@ public class SpellSelectionTest {
 		str.clear();
 		str.sendKeys("18");
 
-		WebElement casterLevel = driver.findElement(By.id("casterLevel"));
-		casterLevel.clear();
-		casterLevel.sendKeys("6");
-		
 		WebElement divineFavorSpell = driver.findElement(By.id("divineFavor"));
 		String divineFavorSpellId = divineFavorSpell.getAttribute("id");
 		WebElement divineFavorSpellLabel = driver.findElement(By.xpath("//label[@for=\"" + divineFavorSpellId + "\"]"));
@@ -86,11 +86,15 @@ public class SpellSelectionTest {
 		
 		divineFavorSpell.click();
 		
+		WebElement casterLevel = driver.findElement(By.id("casterLevel"));
+		casterLevel.clear();
+		casterLevel.sendKeys("6");
+		
 		WebElement calculateButton = driver.findElement(By.id("calculateButton"));
 		calculateButton.click();
 		
 		WebElement damageRoll = driver.findElement(By.id("damageRoll"));
-		assertEquals("1D4+7", damageRoll.getText());
+		assertEquals("1D4+6", damageRoll.getText());
 	}
 
 	@After

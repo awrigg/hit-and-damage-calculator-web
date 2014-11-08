@@ -13,6 +13,7 @@ import br.com.wrigg.dnd.hitAndDamage.character.Attribute;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
 import br.com.wrigg.dnd.hitAndDamage.damage.DamageBonus;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
+import br.com.wrigg.dnd.hitAndDamage.spell.CasterLevel;
 import br.com.wrigg.dnd.hitAndDamage.spell.Spell;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -173,6 +174,35 @@ public class CharacterFactoryTest {
 		Spell spellDTO = new Spell();
 		spellDTO.setId("divineFavor");
 		characterDTO.getSpells().add(spellDTO);
+		
+		CharacterFactory characterFactory = new CharacterFactory();
+		Character characterCreated = characterFactory.create(characterDTO);
+
+		assertEquals(character, characterCreated);
+	}
+	
+	@Test
+	public void characterWithWeaponAndSpellAndCasterLevelCreationTest() {
+		Character character = new Character();
+
+		Weapon weapon = new Weapon("Kukri", new DiceType(4));
+		character.equip(weapon);
+		
+		Spell divineFavor = new Spell("divineFavor", "Divine Favor", Type.FEATURE_DEPENDENT);
+		character.castSpell(divineFavor);
+		
+		character.setCasterLevel(new CasterLevel(2));
+
+		Character characterDTO = new Character();
+		Weapon weaponDTO = new Weapon();
+		weaponDTO.setName("Kukri");
+		characterDTO.equip(weaponDTO);
+		
+		Spell spellDTO = new Spell();
+		spellDTO.setId("divineFavor");
+		characterDTO.castSpell(spellDTO);
+		
+		characterDTO.setCasterLevel(new CasterLevel(2));
 		
 		CharacterFactory characterFactory = new CharacterFactory();
 		Character characterCreated = characterFactory.create(characterDTO);

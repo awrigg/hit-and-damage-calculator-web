@@ -76,8 +76,10 @@ public class CharacterFactory {
 					logger.warn("Spell [" + spell + "] nao encontrada no catalogo");
 				}
 				
-				character.getSpells().add(spell);
+				character.castSpell(spell);
 			}
+
+		character.setCasterLevel(characterDTO.getCasterLevel());
 
 		character.setCharisma(characterDTO.getCharisma());
 
