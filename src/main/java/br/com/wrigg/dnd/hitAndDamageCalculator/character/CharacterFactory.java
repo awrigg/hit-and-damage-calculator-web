@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import br.com.wrigg.dnd.hitAndDamage._class.ClassFeature;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
 import br.com.wrigg.dnd.hitAndDamage.damage.DamageBonus;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
 import br.com.wrigg.dnd.hitAndDamage.spell.Spell;
+import br.com.wrigg.dnd.hitAndDamageCalculator._class.ClassFeatureCataloguer;
+import br.com.wrigg.dnd.hitAndDamageCalculator._class.ClassFeatureNotFoundException;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.ArsenalSupervisor;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.WeaponNotFoundException;
 import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatCataloguer;
@@ -40,7 +43,7 @@ public class CharacterFactory {
 		List<Feat> feats = characterDTO.getFeats();
 		
 		if(feats != null)
-			for (Feat featDTO : characterDTO.getFeats()) {
+			for (Feat featDTO : feats) {
 				logger.debug("Feat Id [" + featDTO.getId() + "] name [" + featDTO.getName() + "]");
 				FeatCataloguer featCataloguer = new FeatCataloguer();
 				Feat feat = null;
@@ -55,13 +58,13 @@ public class CharacterFactory {
 					logger.warn("Feat [" + feat + "] nao encontrada no catalogo");
 				}
 				
-				character.addFeat(feat);
+				character.activateFeat(feat);
 			}
 
 		List<Spell> spells = characterDTO.getSpells();
 
 		if(spells != null)
-			for (Spell spellDTO : characterDTO.getSpells()) {
+			for (Spell spellDTO : spells) {
 				logger.debug("Spell Id [" + spellDTO.getId() + "] name [" + spellDTO.getName() + "]");
 				SpellSearcher spellSearcher = new SpellSearcher();
 				Spell spell = null;
@@ -78,9 +81,32 @@ public class CharacterFactory {
 				
 				character.castSpell(spell);
 			}
+		
+		List<ClassFeature> classFeatures = characterDTO.getClassFeatures();
+
+		if(classFeatures != null)
+			for (ClassFeature classFeatureDTO : classFeatures) {
+				logger.debug("ClassFeature Id [" + classFeatureDTO.getId() + "] name [" + classFeatureDTO.getName() + "]");
+				ClassFeatureCataloguer classFeatureCataloguer = new ClassFeatureCataloguer();
+				ClassFeature classFeature = null;
+				try {
+					classFeature = classFeatureCataloguer.findClassFeature(classFeatureDTO);
+//					DamageBonus damageBonus = spellDTO.getDamageBonus();
+//					logger.debug("DamageBonus [" + damageBonus + "]");
+//					if(damageBonus != null)
+//						logger.debug("bonus [" + damageBonus.printDamageBonus() + "]");
+//					spell.setDamageBonus(damageBonus);
+				} catch (ClassFeatureNotFoundException e) {
+					logger.warn("ClassFeature [" + classFeature + "] nao encontrada no catalogo");
+				}
+				
+				character.activateClassFeature(classFeature);
+			}
 
 		character.setCasterLevel(characterDTO.getCasterLevel());
 
+		character.setTurnLevel(characterDTO.getTurnLevel());
+		
 		character.setCharisma(characterDTO.getCharisma());
 
 		return character;

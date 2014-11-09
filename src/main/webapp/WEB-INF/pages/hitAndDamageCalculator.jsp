@@ -10,6 +10,7 @@
 	<h2>Damage and Hit Calculator</h2>
 	<h4>Damage Roll:</h4>
 	<h4 id="damageRoll">${damageRoll}</h4>
+	<h4 id="criticalDamageRoll">Critical Damage Roll: ${criticalDamageRoll}</h4>
 	<form:form modelAttribute="character">
 		<br />
 		<label for="weaponSelect">Weapon:</label>
@@ -54,14 +55,25 @@
 		<label for="cha"><b>Cha:</b></label>
 		<form:input path="charisma.value" type="text" id="cha" />
 		<br />
-		<h4>Features</h4>
+		<h4>Class Features</h4>
 		<br />
 		<label for="casterLevel"><b>Caster Level:</b></label>
 		<form:input path="casterLevel.level" type="text" id="casterLevel" />
 		<br />
+		<label for="turnLevel"><b>Turn Level:</b></label>
+		<form:input path="turnLevel.level" type="text" id="turnLevel" />
+		<br />
+		<ul>
+			<c:forEach items="${classFeatures}" var="feature" varStatus="featRow">
+				<li>
+					<form:checkbox path="classFeatures" id="${feature.id}" value="${feature.id}" />
+					<label for="${feature.id}">${feature.name}</label>
+				</li>
+			</c:forEach>
+		</ul>
 		
-		<input type="submit" value="Calculate Damage Roll"
-			id="calculateButton" />
+		
+		<input type="submit" value="Calculate Damage Roll" id="calculateButton" />
 	</form:form>
 </body>
 </html>

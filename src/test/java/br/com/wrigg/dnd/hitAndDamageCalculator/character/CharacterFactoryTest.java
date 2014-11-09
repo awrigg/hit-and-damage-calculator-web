@@ -8,6 +8,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.wrigg.dnd.hitAndDamage.DiceType;
 import br.com.wrigg.dnd.hitAndDamage.Type;
+import br.com.wrigg.dnd.hitAndDamage._class.ClassFeature;
+import br.com.wrigg.dnd.hitAndDamage._class.TurnLevel;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Attribute;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
@@ -67,7 +69,7 @@ public class CharacterFactoryTest {
 		character.setStrength(str);
 		
 		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Type.FEATURE_DEPENDENT);
-		character.addFeat(feat);
+		character.activateFeat(feat);
 
 		Attribute cha = new Attribute(21);
 		character.setCharisma(cha);
@@ -99,7 +101,7 @@ public class CharacterFactoryTest {
 		Character character = new Character();
 		
 		Feat feat = new Feat("divineMetamagic", "Divine Metamagic", Type.FEATURE_DEPENDENT);
-		character.addFeat(feat);
+		character.activateFeat(feat);
 
 		Character characterDTO = new Character();
 		
@@ -120,7 +122,7 @@ public class CharacterFactoryTest {
 		
 		Feat powerAttack = new Feat("powerAttack", "Power Attack", Type.VARIABLE_IMPUT);
 		powerAttack.setDamageBonus(new DamageBonus(5));
-		character.addFeat(powerAttack);
+		character.activateFeat(powerAttack);
 
 		Character characterDTO = new Character();
 		
@@ -203,6 +205,35 @@ public class CharacterFactoryTest {
 		characterDTO.castSpell(spellDTO);
 		
 		characterDTO.setCasterLevel(new CasterLevel(2));
+		
+		CharacterFactory characterFactory = new CharacterFactory();
+		Character characterCreated = characterFactory.create(characterDTO);
+
+		assertEquals(character, characterCreated);
+	}
+	
+	@Test
+	public void characterWithWeaponAndClassFeatureAndTurnLevelCreationTest() {
+		Character character = new Character();
+
+		Weapon weapon = new Weapon("Kukri", new DiceType(4));
+		character.equip(weapon);
+		
+		ClassFeature smite = new ClassFeature("smite", "Smite", Type.FEATURE_DEPENDENT);
+		character.activateClassFeature(smite);
+		
+		character.setTurnLevel(new TurnLevel(2));
+
+		Character characterDTO = new Character();
+		Weapon weaponDTO = new Weapon();
+		weaponDTO.setName("Kukri");
+		characterDTO.equip(weaponDTO);
+
+		ClassFeature smiteDTO = new ClassFeature();
+		smiteDTO.setId("smite");
+		characterDTO.activateClassFeature(smiteDTO);
+		
+		characterDTO.setTurnLevel(new TurnLevel(2));
 		
 		CharacterFactory characterFactory = new CharacterFactory();
 		Character characterCreated = characterFactory.create(characterDTO);
