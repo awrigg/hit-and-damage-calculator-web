@@ -8,9 +8,10 @@
 <html>
 <body>
 	<h2>Damage and Hit Calculator</h2>
-	<h4>Damage Roll:</h4>
+	<label for="damageRoll">Damage Roll:</label>
 	<h4 id="damageRoll">${damageRoll}</h4>
-	<h4 id="criticalDamageRoll">Critical Damage Roll: ${criticalDamageRoll}</h4>
+	<label for="criticalDamageRoll">Critical Damage Roll:</label>
+	<h4 id="criticalDamageRoll">${criticalDamageRoll}</h4>
 	<form:form modelAttribute="character">
 		<br />
 		<label for="weaponSelect">Weapon:</label>
@@ -64,7 +65,7 @@
 		<form:input path="turnLevel.level" type="text" id="turnLevel" />
 		<br />
 		<ul>
-			<c:forEach items="${classFeatures}" var="feature" varStatus="featRow">
+			<c:forEach items="${classFeatures}" var="feature">
 				<li>
 					<form:checkbox path="classFeatures" id="${feature.id}" value="${feature.id}" />
 					<label for="${feature.id}">${feature.name}</label>

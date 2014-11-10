@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import br.com.wrigg.dnd.hitAndDamage._class.ClassFeature;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
-import br.com.wrigg.dnd.hitAndDamage.damage.DamageRollCalculator;
+import br.com.wrigg.dnd.hitAndDamage.damage.CriticalDamageRollCalculator;
+import br.com.wrigg.dnd.hitAndDamage.damage.BasicDamageRollCalculator;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
 import br.com.wrigg.dnd.hitAndDamage.spell.Spell;
 import br.com.wrigg.dnd.hitAndDamageCalculator.character.CharacterFactory;
@@ -91,13 +92,17 @@ public class HitAndDamageCalculatorController {
 
 		logger.debug("[character] = " + character);
 		
-		DamageRollCalculator damageRollCalculator = new DamageRollCalculator();		
+		BasicDamageRollCalculator damageRollCalculator = new BasicDamageRollCalculator();		
 		String damageRoll = damageRollCalculator.calculateDamageRoll(character);
+		
+		CriticalDamageRollCalculator criticalDamageRollCalculator = new CriticalDamageRollCalculator();		
+		String criticalDamageRoll = criticalDamageRollCalculator.calculateDamageRoll(character);
 
 		logger.debug("damageRoll calculado [" + damageRoll + "]");
+		logger.debug("criticalDamageRoll calculado [" + criticalDamageRoll + "]");
 		
 		model.addAttribute("damageRoll", damageRoll);
-		model.addAttribute("criticalDamageRoll", damageRoll);
+		model.addAttribute("criticalDamageRoll", criticalDamageRoll);
 
 		return "hitAndDamageCalculator";
 	}
