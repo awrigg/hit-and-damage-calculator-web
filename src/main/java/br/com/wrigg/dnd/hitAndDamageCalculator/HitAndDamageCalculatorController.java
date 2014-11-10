@@ -16,15 +16,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import br.com.wrigg.dnd.hitAndDamage.Item.Item;
 import br.com.wrigg.dnd.hitAndDamage._class.ClassFeature;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
-import br.com.wrigg.dnd.hitAndDamage.damage.CriticalDamageRollCalculator;
 import br.com.wrigg.dnd.hitAndDamage.damage.BasicDamageRollCalculator;
+import br.com.wrigg.dnd.hitAndDamage.damage.CriticalDamageRollCalculator;
 import br.com.wrigg.dnd.hitAndDamage.feat.Feat;
 import br.com.wrigg.dnd.hitAndDamage.spell.Spell;
 import br.com.wrigg.dnd.hitAndDamageCalculator.character.CharacterFactory;
 import br.com.wrigg.dnd.hitAndDamageCalculator.character.ClassFeatureEditor;
+import br.com.wrigg.dnd.hitAndDamageCalculator.item.ItemEditor;
 import br.com.wrigg.dnd.hitAndDamageCalculator.spell.SpellEditor;
 
 @Controller
@@ -39,10 +41,11 @@ public class HitAndDamageCalculatorController {
 	//FIXME mesmo com o binder nao estava criando a Feat com ID preenchido
 	@InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-		logger.debug("INIT BINDER CALLED");
+		logger.trace("INIT BINDER CALLED");
 		//binder.registerCustomEditor(Feat.class, new FeatEditor());
 		binder.registerCustomEditor(Spell.class, new SpellEditor());
 		binder.registerCustomEditor(ClassFeature.class, new ClassFeatureEditor());
+		binder.registerCustomEditor(Item.class, new ItemEditor());
     }
 	
 	@ModelAttribute("weapons")
@@ -64,6 +67,13 @@ public class HitAndDamageCalculatorController {
 		//FIXME Apenas para efeito dos testes iniciais
 		Spell spell = new Spell();
 		return spell.values();
+	}
+	
+	@ModelAttribute("items")
+	public List<Item> items() {
+		//FIXME Apenas para efeito dos testes iniciais
+		Item item = new Item();
+		return item.values();
 	}
 	
 	@ModelAttribute("classFeatures")

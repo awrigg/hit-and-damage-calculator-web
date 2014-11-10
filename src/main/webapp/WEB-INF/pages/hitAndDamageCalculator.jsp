@@ -40,10 +40,21 @@
 		<h4>Spells</h4>
 		<br />
 		<ul>
-			<c:forEach items="${spells}" var="spell" varStatus="spellRow">
+			<c:forEach items="${spells}" var="spell">
 				<li>
 					<form:checkbox path="spells" id="${spell.id}" value="${spell.id}" />
 					<label for="${spell.id}">${spell.name}</label>
+				</li>
+			</c:forEach>
+		</ul>
+		<br />
+		<h4>Items</h4>
+		<br />
+		<ul>
+			<c:forEach items="${items}" var="item">
+				<li>
+					<form:checkbox path="items" id="${item.id}" value="${item.id}" />
+					<label for="${item.id}">${item.name}</label>
 				</li>
 			</c:forEach>
 		</ul>

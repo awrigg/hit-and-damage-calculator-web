@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import br.com.wrigg.dnd.hitAndDamage.Item.Item;
 import br.com.wrigg.dnd.hitAndDamage._class.ClassFeature;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
 import br.com.wrigg.dnd.hitAndDamage.character.Character;
@@ -16,6 +17,8 @@ import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.ArsenalSupervisor;
 import br.com.wrigg.dnd.hitAndDamageCalculator.arsenal.WeaponNotFoundException;
 import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatCataloguer;
 import br.com.wrigg.dnd.hitAndDamageCalculator.feat.FeatNotFoundException;
+import br.com.wrigg.dnd.hitAndDamageCalculator.item.ItemCataloguer;
+import br.com.wrigg.dnd.hitAndDamageCalculator.item.ItemNotFoundException;
 import br.com.wrigg.dnd.hitAndDamageCalculator.spell.SpellNotFoundException;
 import br.com.wrigg.dnd.hitAndDamageCalculator.spell.SpellSearcher;
 
@@ -103,6 +106,27 @@ public class CharacterFactory {
 				character.activateClassFeature(classFeature);
 			}
 
+		List<Item> items = characterDTO.getItems();
+
+		if(items != null)
+			for (Item itemDTO : items) {
+				logger.debug("Item Id [" + itemDTO.getId() + "] name [" + itemDTO.getName() + "]");
+				ItemCataloguer itemCataloguer = new ItemCataloguer();
+				Item item = null;
+				try {
+					item = itemCataloguer.findItem(itemDTO);
+//					DamageBonus damageBonus = spellDTO.getDamageBonus();
+//					logger.debug("DamageBonus [" + damageBonus + "]");
+//					if(damageBonus != null)
+//						logger.debug("bonus [" + damageBonus.printDamageBonus() + "]");
+//					spell.setDamageBonus(damageBonus);
+				} catch (ItemNotFoundException e) {
+					logger.warn("Item [" + item + "] nao encontrada no catalogo");
+				}
+				
+				character.activateItem(item);
+			}
+		
 		character.setCasterLevel(characterDTO.getCasterLevel());
 
 		character.setTurnLevel(characterDTO.getTurnLevel());

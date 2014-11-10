@@ -8,6 +8,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.wrigg.dnd.hitAndDamage.DiceType;
 import br.com.wrigg.dnd.hitAndDamage.Type;
+import br.com.wrigg.dnd.hitAndDamage.Item.Item;
 import br.com.wrigg.dnd.hitAndDamage._class.ClassFeature;
 import br.com.wrigg.dnd.hitAndDamage._class.TurnLevel;
 import br.com.wrigg.dnd.hitAndDamage.arsenal.Weapon;
@@ -234,6 +235,31 @@ public class CharacterFactoryTest {
 		characterDTO.activateClassFeature(smiteDTO);
 		
 		characterDTO.setTurnLevel(new TurnLevel(2));
+		
+		CharacterFactory characterFactory = new CharacterFactory();
+		Character characterCreated = characterFactory.create(characterDTO);
+
+		assertEquals(character, characterCreated);
+	}
+	
+	@Test
+	public void characterWithWeaponAndEnlargePersonPotionCreationTest() {
+		Character character = new Character();
+
+		Weapon weapon = new Weapon("Kukri", new DiceType(4));
+		character.equip(weapon);
+		
+		Item enlargePersonPotion = new Item("enlargePersonPotion", "Enlarge Person Potion");
+		character.activateItem(enlargePersonPotion);
+		
+		Character characterDTO = new Character();
+		Weapon weaponDTO = new Weapon();
+		weaponDTO.setName("Kukri");
+		characterDTO.equip(weaponDTO);
+
+		Item enlargePersonPotionDTO = new Item();
+		enlargePersonPotionDTO.setId("enlargePersonPotion");
+		characterDTO.getItems().add(enlargePersonPotionDTO);
 		
 		CharacterFactory characterFactory = new CharacterFactory();
 		Character characterCreated = characterFactory.create(characterDTO);
